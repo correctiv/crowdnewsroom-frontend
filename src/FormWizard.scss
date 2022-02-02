@@ -39,16 +39,19 @@
   top: 0;
 }
 
+.field-description {
+  font-size: 125%;
+  line-height: 1.6;
+  margin-bottom: 1.5em;
+  img {
+    max-width: 100%;
+  }
+}
+
 .form-wizard__form {
   margin-top: 30px;
   padding-bottom: 30px;
   // text-align: center;
-
-  .field-description {
-    font-size: 125%;
-    line-height: 1.6;
-    margin-bottom: 1.5em;
-  }
 
   .control-label {
     font-weight: bold;
