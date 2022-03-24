@@ -153,6 +153,12 @@ class FormWizard extends Component {
     }
   }
 
+  removeDescription(schema) {
+    var new_schema = Object.assign({}, schema);
+    delete new_schema.description;
+    return new_schema;
+  }
+
   async canWeGetHere(step) {
     if (this.props.steps[0].schema.slug === step) {
       return true;
@@ -202,10 +208,14 @@ class FormWizard extends Component {
           transitionLeaveTimeout={1}
         >
           <h3 className="slide-title">{this.state.schema.title}</h3>
+          <div
+            className="field-description mt-4"
+            dangerouslySetInnerHTML={{ __html: this.state.schema.description }}
+          />
           <Form
             key={this.state.schema.slug}
             className="form-wizard__form"
-            schema={this.state.schema}
+            schema={this.removeDescription(this.state.schema)}
             uiSchema={uiSchema}
             onChange={this.maybeAutoAdvance}
             onSubmit={this.onSubmit}

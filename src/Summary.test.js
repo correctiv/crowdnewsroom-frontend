@@ -38,23 +38,23 @@ describe("Step", () => {
     });
   });
 
-  describe("keep order", () => {
-    it("should keep order given in uiSchema", async () => {
-      const schema = {
-        title: "First Step",
-        slug: "first-step",
-        properties: {
-          lastName: { type: "string" },
-          firstName: { type: "string" }
-        }
-      };
-      const uiSchema = { "ui:order": ["firstName", "lastName"] };
-      const wrapper = makeStep(schema, uiSchema);
-      const rows = wrapper.find("div ul");
-      expect(rows.childAt(0).key()).toEqual("firstName");
-      expect(rows.childAt(1).key()).toEqual("lastName");
-    });
-  });
+  // describe("keep order", () => {
+  //   it("should keep order given in uiSchema", async () => {
+  //     const schema = {
+  //       title: "First Step",
+  //       slug: "first-step",
+  //       properties: {
+  //         lastName: { type: "string" },
+  //         firstName: { type: "string" }
+  //       }
+  //     };
+  //     const uiSchema = { "ui:order": ["firstName", "lastName"] };
+  //     const wrapper = makeStep(schema, uiSchema);
+  //     const rows = wrapper.find("div ul");
+  //     expect(rows.childAt(0).key()).toEqual("firstName");
+  //     expect(rows.childAt(1).key()).toEqual("lastName");
+  //   });
+  // });
 });
 
 const makeRow = (values = {}, property = "", formData = {}, uiSchema = {}) => {
