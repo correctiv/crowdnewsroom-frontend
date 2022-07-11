@@ -11,6 +11,7 @@ import { t } from "./i18n";
 import Card from "./Card";
 import SignatureWidget from "./formWidgets/SignatureWidget";
 import ButtonWidget from "./formWidgets/ButtonWidget";
+import AnswerWidget from "./formWidgets/AnswerWidget";
 import PatternTypeTextInputWidget from "./formWidgets/PatternTypeTextInputWidget";
 import OneLineWidget from "./formWidgets/OneLineWidget";
 import ImageUploadWidget from "./formWidgets/ImageUploadWidget";
@@ -179,12 +180,14 @@ class FormWizard extends Component {
 
       const widget = _.get(uiSchema, [propertyName, "ui:widget"]);
       const isSignature = widget === "signatureWidget";
-
       if (error.name === "required") {
         error.message = t("errors.required");
       }
       if (error.name === "type" && error.params.type === "boolean") {
         error.message = t("errors.boolean");
+      }
+      if (error.name === "type" && error.params.type === "answer") {
+        error.message = t("errors.answer");
       }
       if (isSignature) {
         error.message = t("errors.signature");
@@ -226,7 +229,8 @@ class FormWizard extends Component {
               patternTypeTextInputWidget: PatternTypeTextInputWidget,
               oneLineWidget: OneLineWidget,
               imageUpload: ImageUploadWidget,
-              locationWidget: LocationWidget
+              locationWidget: LocationWidget,
+              answerWidget: AnswerWidget
             }}
             transformErrors={this.transformErrors}
             showErrorList={false}
@@ -242,7 +246,7 @@ class FormWizard extends Component {
             <input
               className="btn btn-primary form-wizard__btn-next"
               type="submit"
-              value={this.state.schema.nextButtonLabel || t("form.next")}
+              value={t("form.next")}
             />
           </Form>
         </CSSTransitionGroup>
