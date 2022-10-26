@@ -25,6 +25,7 @@ class StateHolder extends React.Component {
       loading: true,
       formInstanceId: null,
       investigation: {},
+      formStatus: null,
       steps: [],
       sending: false,
       stepsTaken: new Set()
@@ -54,6 +55,7 @@ class StateHolder extends React.Component {
           uiSchema: formData.ui_schema_json,
           formInstanceId: formData.id,
           investigation: investigationData,
+          formStatus: formData.form_status,
           language: formData.language
         });
       })
@@ -123,6 +125,7 @@ class StateHolder extends React.Component {
             uiSchema={this.state.uiSchema}
             stepsTaken={this.state.stepsTaken}
             language={this.state.language}
+            formStatus={this.state.formStatus}
           >
             {this.state.sending ? (
               <button className="btn btn-primary btn-lg btn-block" disabled>
@@ -148,6 +151,7 @@ class StateHolder extends React.Component {
                 investigation={this.state.investigation}
                 steps={this.state.steps}
                 formData={this.state.formData}
+                formStatus={this.state.formStatus}
                 uiSchema={this.state.uiSchema}
                 history={this.props.history}
                 stepsTaken={this.state.stepsTaken}
