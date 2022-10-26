@@ -15,7 +15,6 @@ class AnswerWidget extends Component {
 
   set(event) {
     this.props.onChange(event.target.value);
-    console.log(event.target.name);
     this.setState({
       current: event.target.name
     });
@@ -37,7 +36,7 @@ class AnswerWidget extends Component {
               {item.name}
               <input
                 className="sr-only"
-                type="radio"
+                type="submit"
                 name={item.id}
                 value={item.next_slide}
                 onClick={this.set}
