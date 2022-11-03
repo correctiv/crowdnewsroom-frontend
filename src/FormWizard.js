@@ -80,7 +80,6 @@ class FormWizard extends Component {
   }
 
   setNextStep(nextStep) {
-    console.log(nextStep);
     this.setState({
       step: nextStep,
       stepsTaken: this.state.stepsTaken.add(nextStep.schema.slug)
