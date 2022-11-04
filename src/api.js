@@ -32,9 +32,10 @@ function postJSON(url, data) {
 }
 
 export function getForm(investigationId = 1, formId = 1) {
-  return fetchJson(
+  var data = fetchJson(
     `${API_URL}/investigations/${investigationId}/forms/${formId}`
   );
+  return data;
 }
 
 export function getInvestigation(investigationId) {

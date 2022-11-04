@@ -11,6 +11,7 @@ import { t } from "./i18n";
 import Card from "./Card";
 import SignatureWidget from "./formWidgets/SignatureWidget";
 import ButtonWidget from "./formWidgets/ButtonWidget";
+import AnswerWidget from "./formWidgets/AnswerWidget";
 import PatternTypeTextInputWidget from "./formWidgets/PatternTypeTextInputWidget";
 import OneLineWidget from "./formWidgets/OneLineWidget";
 import ImageUploadWidget from "./formWidgets/ImageUploadWidget";
@@ -22,15 +23,17 @@ class FormWizard extends Component {
     currentStep: PropTypes.string,
     steps: PropTypes.arrayOf(PropTypes.object),
     submitCallback: PropTypes.func,
-    formData: PropTypes.object
+    formData: PropTypes.object,
+    formStatus: PropTypes.string
   };
 
   constructor(props) {
     super(props);
     t.setLocale(props.language);
-    const { steps, formData, stepsTaken } = props;
+    const { steps, formData, formStatus, stepsTaken } = props;
     this.state = {
       formData,
+      formStatus,
       schema: steps[0].schema,
       step: steps[0],
       stepsTaken: stepsTaken || new Set()
@@ -58,6 +61,19 @@ class FormWizard extends Component {
   advance(formData) {
     this.setState({ formData });
     this.getNextStep(formData).then(nextStep => {
+      if (
+        this.state.step.schema.nextOwnStep &&
+        !this.state.step.schema.hideNextButton
+      ) {
+        var nextStepSlug = this.state.step.schema.nextOwnStep;
+        nextStep = this.props.steps.find(function(slide) {
+          if (slide.schema.slug === nextStepSlug) {
+            return slide;
+          } else {
+            return "";
+          }
+        });
+      }
       this.setNextStep(nextStep);
       this.updateRoute(nextStep);
     });
@@ -179,12 +195,14 @@ class FormWizard extends Component {
 
       const widget = _.get(uiSchema, [propertyName, "ui:widget"]);
       const isSignature = widget === "signatureWidget";
-
       if (error.name === "required") {
         error.message = t("errors.required");
       }
       if (error.name === "type" && error.params.type === "boolean") {
         error.message = t("errors.boolean");
+      }
+      if (error.name === "type" && error.params.type === "answer") {
+        error.message = t("errors.answer");
       }
       if (isSignature) {
         error.message = t("errors.signature");
@@ -212,39 +230,46 @@ class FormWizard extends Component {
             className="field-description mt-4"
             dangerouslySetInnerHTML={{ __html: this.state.schema.description }}
           />
-          <Form
-            key={this.state.schema.slug}
-            className="form-wizard__form"
-            schema={this.removeDescription(this.state.schema)}
-            uiSchema={uiSchema}
-            onChange={this.maybeAutoAdvance}
-            onSubmit={this.onSubmit}
-            formData={this.state.formData}
-            widgets={{
-              signatureWidget: SignatureWidget,
-              buttonWidget: ButtonWidget,
-              patternTypeTextInputWidget: PatternTypeTextInputWidget,
-              oneLineWidget: OneLineWidget,
-              imageUpload: ImageUploadWidget,
-              locationWidget: LocationWidget
-            }}
-            transformErrors={this.transformErrors}
-            showErrorList={false}
-          >
-            {this.state.stepsTaken.size > 1 && (
-              <Link
-                className="btn btn-outline-primary mr-2"
-                to={`./${this.backLink}`}
-              >
-                {t("form.back")}
-              </Link>
-            )}
-            <input
-              className="btn btn-primary form-wizard__btn-next"
-              type="submit"
-              value={this.state.schema.nextButtonLabel || t("form.next")}
-            />
-          </Form>
+          {this.state.formStatus !== "A" && (
+            <Form
+              key={this.state.schema.slug}
+              className="form-wizard__form"
+              schema={this.removeDescription(this.state.schema)}
+              uiSchema={uiSchema}
+              onChange={this.maybeAutoAdvance}
+              onSubmit={this.onSubmit}
+              formData={this.state.formData}
+              widgets={{
+                signatureWidget: SignatureWidget,
+                buttonWidget: ButtonWidget,
+                patternTypeTextInputWidget: PatternTypeTextInputWidget,
+                oneLineWidget: OneLineWidget,
+                imageUpload: ImageUploadWidget,
+                locationWidget: LocationWidget,
+                answerWidget: AnswerWidget
+              }}
+              transformErrors={this.transformErrors}
+              showErrorList={false}
+            >
+              {this.state.stepsTaken.size > 1 && (
+                <Link
+                  className="btn btn-outline-primary mr-2"
+                  to={`./${this.backLink}`}
+                >
+                  {t("form.back")}
+                </Link>
+              )}
+              {this.state.schema.hideNextButton}
+              {!this.state.schema.hideNextButton && (
+                <input
+                  className="btn btn-primary form-wizard__btn-next"
+                  type="submit"
+                  v-show="this.state.schema.hideNextButton"
+                  value={this.state.schema.nextButtonLabel}
+                />
+              )}
+            </Form>
+          )}
         </CSSTransitionGroup>
       </Card>
     );

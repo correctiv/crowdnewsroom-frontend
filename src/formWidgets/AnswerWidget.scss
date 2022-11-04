@@ -1,0 +1,11 @@
+.answer-widget__button {
+  display: inline-block;
+  margin: 0.5em auto;
+  min-width: 80%;
+  overflow: visible;
+}
+@media (min-width: 46.25em) {
+  .answer-widget__button {
+    min-width: 32%;
+  }
+}

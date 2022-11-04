@@ -49,6 +49,12 @@ function getValueText(property, formData, values) {
   if (values.enum && values.enumNames) {
     return values.enumNames[values.enum.indexOf(formData[property])];
   }
+  if (values.type === "string" && property.includes("yes-no")) {
+    var getNextObj = values.items.enum.find(
+      obj => obj.next_slide === formData[property]
+    );
+    return getNextObj.name;
+  }
   return formData[property];
 }
 
