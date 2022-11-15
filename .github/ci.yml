@@ -16,9 +16,11 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 10
+          cache: 'npm'
       - uses: actions/setup-python@v4
         with:
           python-version: "2.7"
+          cache: 'pip'
       - run: node --version && python --version
       - run: yarn install --ignore-engines
       - run: yarn build
