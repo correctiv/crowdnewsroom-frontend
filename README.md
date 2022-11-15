@@ -8,10 +8,16 @@ steps and [json-rules-engine-simplified] for the transitions between the steps.
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app). You can find information about common generic tasks in this guide [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
 
+## Versions
+
+Python `2.7.18`
+
+Node `v10.24.1`
+
 ## Installation
 
 ```bash
-yarn install
+`yarn install --ignore-engines`
 # or npm install
 ```
 
