@@ -1,0 +1,30 @@
+on:
+  push:
+    branches:
+      - main
+      - staging
+
+jobs:
+  generate-artefact:
+    runs-on: ubuntu-latest
+    name: Build dist
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 10
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "2.7"
+      - run: node --version && python --version
+      - run: yarn install --ignore-engines
+      - run: yarn build
+      - name: "Upload Artifact"
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ GITHUB_REF_NAME }}-dist
+          path: ./build
+          retention-days: 5
