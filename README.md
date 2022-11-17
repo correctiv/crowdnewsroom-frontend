@@ -1,4 +1,4 @@
-# Crowdnewsroom frontend (interviewer) [![Build Status](https://travis-ci.org/correctiv/crowdnewsroom-frontend.svg?branch=master)](https://travis-ci.org/correctiv/crowdnewsroom-frontend) [![codecov](https://codecov.io/gh/correctiv/crowdnewsroom-frontend/branch/master/graph/badge.svg)](https://codecov.io/gh/correctiv/crowdnewsroom-frontend)
+# Crowdnewsroom frontend (interviewer)
 
 This is the part of the Crowdnewsroom (CNR) that is visible to the participants. It gets data from the CNR API
 and displays a step-by-step interviewer to the users.
