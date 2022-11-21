@@ -10,7 +10,7 @@
     "bootstrap": "^4.0.0",
     "chokidar-cli": "^1.2.2",
     "classnames": "^2.2.5",
-    "enzyme": "^3.3.0",
+    "enzyme": "3.11.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "json-rules-engine-simplified":
       "correctiv/json-rules-engine-simplified#ship-lib",
@@ -24,7 +24,7 @@
     "react-dom": "^16.2.0",
     "react-jsonschema-form": "^1.0.0",
     "react-router-dom": "^4.2.2",
-    "react-scripts": "5.0.1",
+    "react-scripts": "1.1.0",
     "react-signature-pad-wrapper": "^1.0.0",
     "react-transition-group": "1.x",
     "sass-mq": "4.0.2",
