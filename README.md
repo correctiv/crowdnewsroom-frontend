@@ -1,4 +1,4 @@
-# Crowdnewsroom frontend (interviewer) [![Build Status](https://travis-ci.org/correctiv/crowdnewsroom-frontend.svg?branch=master)](https://travis-ci.org/correctiv/crowdnewsroom-frontend) [![codecov](https://codecov.io/gh/correctiv/crowdnewsroom-frontend/branch/master/graph/badge.svg)](https://codecov.io/gh/correctiv/crowdnewsroom-frontend)
+# Crowdnewsroom frontend (interviewer)
 
 This is the part of the Crowdnewsroom (CNR) that is visible to the participants. It gets data from the CNR API
 and displays a step-by-step interviewer to the users.
@@ -8,10 +8,16 @@ steps and [json-rules-engine-simplified] for the transitions between the steps.
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app). You can find information about common generic tasks in this guide [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
 
+## Versions
+
+Python `2.7.18`
+
+Node `v10.24.1`
+
 ## Installation
 
 ```bash
-yarn install
+`yarn install --ignore-engines`
 # or npm install
 ```
 
