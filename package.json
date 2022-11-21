@@ -27,7 +27,7 @@
     "react-scripts": "5.0.1",
     "react-signature-pad-wrapper": "^1.0.0",
     "react-transition-group": "1.x",
-    "sass-mq": "^6.0.0",
+    "sass-mq": "4.0.2",
     "signature_pad": "^2.3.2"
   },
   "scripts": {
