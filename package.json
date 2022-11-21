@@ -5,18 +5,18 @@
   "dependencies": {
     "@fortawesome/fontawesome": "^1.1.5",
     "@fortawesome/fontawesome-free-solid": "^5.0.9",
-    "@fortawesome/react-fontawesome": "^0.0.18",
+    "@fortawesome/react-fontawesome": "^0.0.20",
     "babel-polyfill": "^6.26.0",
     "bootstrap": "^4.0.0",
     "chokidar-cli": "^1.2.2",
     "classnames": "^2.2.5",
-    "enzyme": "^3.3.0",
+    "enzyme": "3.11.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "json-rules-engine-simplified":
       "correctiv/json-rules-engine-simplified#ship-lib",
     "lodash": "^4.17.21",
     "node-polyglot": "^2.2.2",
-    "node-sass-chokidar": "^1.2.0",
+    "node-sass-chokidar": "^2.0.0",
     "npm-run-all": "^4.1.2",
     "prop-types": "^15.6.1",
     "react": "^16.2.0",
@@ -27,7 +27,7 @@
     "react-scripts": "1.1.0",
     "react-signature-pad-wrapper": "^1.0.0",
     "react-transition-group": "1.x",
-    "sass-mq": "^4.0.2",
+    "sass-mq": "4.0.2",
     "signature_pad": "^2.3.2"
   },
   "scripts": {
