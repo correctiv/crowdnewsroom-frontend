@@ -18,7 +18,7 @@
     "node-polyglot": "^2.2.2",
     "node-sass-chokidar": "^1.2.0",
     "npm-run-all": "^4.1.2",
-    "prop-types": "^15.6.1",
+    "prop-types": "^15.8.1",
     "react": "^16.2.0",
     "react-datepicker": "2.3.0",
     "react-dom": "^16.2.0",
