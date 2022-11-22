@@ -359,7 +359,7 @@ const translations = {
   pt: new Polyglot({ phrases: pt, locale: "pt" }),
   ru: new Polyglot({ phrases: ru, locale: "ru" }),
   sr: new Polyglot({ phrases: sr, locale: "sr" }),
-  so: new Polyglot({ phrases: so, locale: "so" }),
+  so: new Polyglot({ phrases: so, locale: "en-gb" }),
   es: new Polyglot({ phrases: es, locale: "es" }),
   tr: new Polyglot({ phrases: tr, locale: "tr" })
 };
