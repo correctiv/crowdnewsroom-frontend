@@ -29,7 +29,12 @@ class FormWizard extends Component {
 
   constructor(props) {
     super(props);
-    t.setLocale(props.language);
+    if (props.language == "en-gb") {
+      t.setLocale("so");
+    } else {
+      t.setLocale(props.language);
+    }
+
     const { steps, formData, formStatus, stepsTaken } = props;
     this.state = {
       formData,
