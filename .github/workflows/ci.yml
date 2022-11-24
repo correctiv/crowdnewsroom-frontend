@@ -46,3 +46,6 @@ jobs:
           name: ${{ github.ref_name }}-dist
           path: ./build
           retention-days: 5
+      - name: Trigger deployment
+        shell: bash
+        run: curl -X POST ${{ secrets.DEPLOY_WEBHOOK }}
