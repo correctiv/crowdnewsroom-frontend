@@ -6,7 +6,7 @@ on:
 
 jobs:
   generate-artefact:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     name: Build
     environment: ${{ github.ref_name }}
     defaults:
@@ -46,3 +46,6 @@ jobs:
           name: ${{ github.ref_name }}-dist
           path: ./build
           retention-days: 5
+      - name: Trigger deployment
+        shell: bash
+        run: curl -X POST ${{ secrets.DEPLOY_WEBHOOK }}
