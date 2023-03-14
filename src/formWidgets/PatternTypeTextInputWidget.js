@@ -8,7 +8,7 @@ class PatternTypeTextInputWidget extends Component {
     super(props);
     var startDate = new Date();
     this.state = {
-      value: "",
+      value: props.value,
       date: "",
       startDate: startDate,
       setStartDate: startDate,
@@ -52,8 +52,6 @@ class PatternTypeTextInputWidget extends Component {
 
   render() {
     const props = this.props;
-    console.log(props);
-    console.log(this.props);
     const own_this = this;
     props.onChange(this.state.value === "" ? "" : this.state.value);
     props.onChange(own_this.state.value === "" ? "" : own_this.state.value);
