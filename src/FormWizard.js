@@ -99,13 +99,11 @@ class FormWizard extends Component {
   }
 
   async componentDidMount() {
-    const canGetToSelectedStep = await this.canWeGetHere(
-      this.props.match.params.step
-    );
-    if (canGetToSelectedStep) {
-      const currentStep = _.find(this.props.steps, step => {
-        return step.schema.slug === this.props.match.params.step;
-      });
+    const currentStep = _.find(this.props.steps, step => {
+      return step.schema.slug === this.props.match.params.step;
+    });
+
+    if (currentStep && !currentStep.schema.final) {
       this.setState({ schema: currentStep.schema, step: currentStep });
     } else {
       this.resetToFirstStep();
