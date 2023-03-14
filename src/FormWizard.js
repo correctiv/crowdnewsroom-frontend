@@ -102,6 +102,7 @@ class FormWizard extends Component {
     const canGetToSelectedStep = await this.canWeGetHere(
       this.props.match.params.step
     );
+    console.log(canGetToSelectedStep);
     if (canGetToSelectedStep) {
       const currentStep = _.find(this.props.steps, step => {
         return step.schema.slug === this.props.match.params.step;
