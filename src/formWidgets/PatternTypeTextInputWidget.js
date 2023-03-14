@@ -51,6 +51,7 @@ class PatternTypeTextInputWidget extends Component {
   }
 
   render() {
+    const props = this.props;
     console.log(props);
     console.log(this.props);
     const own_this = this;
