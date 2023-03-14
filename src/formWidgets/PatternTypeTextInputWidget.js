@@ -21,6 +21,7 @@ class PatternTypeTextInputWidget extends Component {
       this.setStartDate(new Date());
     }
     console.log(this.state);
+    console.log(this.props);
   }
 
   setStartDate(date) {
@@ -55,6 +56,7 @@ class PatternTypeTextInputWidget extends Component {
     const props = this.props;
     const own_this = this;
     props.onChange(this.state.value === "" ? "" : this.state.value);
+    props.onChange(own_this.state.value === "" ? "" : own_this.state.value);
     if (this.state.showDatepicker === "date") {
       return (
         <div>
