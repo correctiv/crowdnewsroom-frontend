@@ -6,6 +6,11 @@ import App from "./App";
 import { Route } from "react-router-dom";
 import FormWizard from "./FormWizard";
 
+global.sessionStorage = {
+  getItem: () => undefined,
+  setItem: () => undefined
+};
+
 configure({ adapter: new Adapter() });
 
 const steps = [
@@ -346,6 +351,7 @@ describe("FormWizard", () => {
       });
 
       it("starts at selected step if matching formData is given", async () => {
+        sessionStorage.setItem("test", "me");
         const wrapper = shallow(
           <FormWizard
             formData={{ first_first: "A", second_first: "A" }}

@@ -134,7 +134,7 @@ class FormWizard extends Component {
     // Enable prefilling of input text fields by passing url query param from initial step to session storage
 
     const queryParamsRaw = window.location.search;
-    let queryParamsCleaned = queryParamsRaw.replaceAll("?", "");
+    let queryParamsCleaned = queryParamsRaw.replace("?", "");
     if (queryParamsCleaned.startsWith("prefill")) {
       queryParamsCleaned = queryParamsCleaned.replaceAll("prefill", "");
       const queryParamsArray = queryParamsCleaned.split("&") || [];
