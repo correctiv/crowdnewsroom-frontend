@@ -66,8 +66,8 @@ class FormWizard extends Component {
               ...this.state.formData,
               [prefiller[i].key]:
                 elem.type === "number"
-                  ? parseInt(prefiller[i].val)
-                  : prefiller[i].val
+                  ? parseInt(prefiller[i].val, prefiller[i].val)
+                  : decodeURI(prefiller[i].val)
             }
           });
         }
