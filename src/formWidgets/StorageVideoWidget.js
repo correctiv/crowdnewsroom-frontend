@@ -99,21 +99,36 @@ class StorageVideoWidget extends Component {
 
   onChange = event => {
     const { multiple, onChange } = this.props;
-    this.setState({ isLoading: true });
-    processFiles(event.target.files).then(filesInfo => {
-      const state = {
-        values: filesInfo.map(fileInfo => fileInfo.storageFileName),
-        filesInfo
-      };
-      this.setState(state, () => {
-        if (multiple) {
-          onChange(state.values);
-        } else {
-          onChange(state.values[0]);
-        }
-      });
-      this.setState({ isLoading: false });
+    const submitElem = document.querySelectorAll("input.btn, a.btn");
+    submitElem.forEach(e => {
+      e.disabled = true;
     });
+    this.setState({ isLoading: true });
+    processFiles(event.target.files)
+      .then(filesInfo => {
+        const state = {
+          values: filesInfo.map(fileInfo => fileInfo.storageFileName),
+          filesInfo
+        };
+        this.setState(state, () => {
+          if (multiple) {
+            onChange(state.values);
+          } else {
+            onChange(state.values[0]);
+          }
+        });
+        this.setState({ isLoading: false });
+        submitElem.forEach(e => {
+          e.disabled = false;
+        });
+      })
+      .catch(error => {
+        console.log(error);
+        this.setState({ isLoading: false });
+        submitElem.forEach(e => {
+          e.disabled = false;
+        });
+      });
   };
 
   render() {
