@@ -83,6 +83,20 @@ export function shouldRender(comp, nextProps, nextState) {
   return !deepEquals(props, nextProps) || !deepEquals(state, nextState);
 }
 
+export function fakeUuid() {
+  return (
+    Math.random()
+      .toString(36)
+      .substring(2) +
+    Math.random()
+      .toString(36)
+      .substring(2) +
+    Math.random()
+      .toString(36)
+      .substring(2)
+  );
+}
+
 export function dataURItoBlob(dataURI) {
   // Split metadata from data
   const splitted = dataURI.split(",");
