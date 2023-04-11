@@ -1,16 +1,14 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import PropTypes from "prop-types";
 
-import { dataURItoBlob, shouldRender } from "./utils";
+import { shouldRender } from "./utils";
 import uuid from "react-uuid";
 
 async function processFile(file) {
   const { name, size, type } = file;
-  console.log(file);
   return await uploadStorage(file).then(res => {
-    console.log(res);
     return {
-      dataURL: res.fileNameStorage,
+      storageFileName: res.fileNameStorage,
       name,
       size,
       type
@@ -28,28 +26,27 @@ function FilesInfo(props) {
     return null;
   }
   return (
-    <ul className="file-info">
+    <div className="file-info" style={{ display: "flex" }}>
       {filesInfo.map((fileInfo, key) => {
-        const { name, size, type } = fileInfo;
+        const { storageFileName: name, size, type } = fileInfo;
         return (
-          <li key={key}>
-            <strong>{name}</strong> ({type}, {size} bytes)
-          </li>
+          <p key={key}>
+            <strong>{name}</strong> ({type}, {(size / 1000000).toFixed(2)} MB)
+          </p>
         );
       })}
-    </ul>
+    </div>
   );
 }
 
-function extractFileInfo(dataURLs) {
-  return dataURLs
-    .filter(dataURL => typeof dataURL !== "undefined")
-    .map(dataURL => {
-      const { blob, name } = dataURItoBlob(dataURL);
+function extractFileInfo(file) {
+  return file
+    .filter(storageFileName => typeof storageFileName !== "undefined")
+    .map(fileObj => {
       return {
-        name: name,
-        size: blob.size,
-        type: blob.type
+        name: fileObj.name,
+        size: fileObj.size,
+        type: fileObj.type
       };
     });
 }
@@ -58,7 +55,6 @@ async function uploadStorage(file) {
   const uniqueHash = uuid();
   const fileExt = file.name.match(/\.([0-9a-z]+)(?:[?#]|$)/i);
   const uniqueFilename = uniqueHash + fileExt[0];
-  console.log(uniqueFilename);
   const uploadUrl = fetch(
     `${
       process.env.REACT_APP_BACKEND_URL
@@ -73,21 +69,29 @@ async function uploadStorage(file) {
     method: "PUT",
     body: file
   };
-  const uploaded = fetch(uploadUrlSigned, requestOptions).then(data => {
-    return {
-      data,
-      fileNameStorage: uniqueFilename
-    };
-  });
+  const uploaded = fetch(uploadUrlSigned, requestOptions)
+    .then(data => {
+      return {
+        data,
+        fileNameStorage: uniqueFilename
+      };
+    })
+    .catch(e => {
+      throw e;
+    });
   return await uploaded;
 }
 
-class StorageFileWidget extends Component {
+class StorageVideoWidget extends Component {
   constructor(props) {
     super(props);
     const { value } = props;
     const values = Array.isArray(value) ? value : [value];
-    this.state = { values, filesInfo: extractFileInfo(values) };
+    this.state = {
+      values,
+      filesInfo: extractFileInfo(values),
+      isLoading: false
+    };
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -96,19 +100,20 @@ class StorageFileWidget extends Component {
 
   onChange = event => {
     const { multiple, onChange } = this.props;
+    this.setState({ isLoading: true });
     processFiles(event.target.files).then(filesInfo => {
       const state = {
-        values: filesInfo.map(fileInfo => fileInfo.dataURL),
+        values: filesInfo.map(fileInfo => fileInfo.storageFileName),
         filesInfo
       };
       this.setState(state, () => {
-        console.log(state);
         if (multiple) {
           onChange(state.values);
         } else {
           onChange(state.values[0]);
         }
       });
+      this.setState({ isLoading: false });
     });
   };
 
@@ -122,26 +127,53 @@ class StorageFileWidget extends Component {
             ref={ref => (this.inputRef = ref)}
             id={id}
             type="file"
-            disabled={readonly || disabled}
+            disabled={readonly || disabled || this.state.isLoading}
             onChange={this.onChange}
             defaultValue=""
             autoFocus={autofocus}
             multiple={false}
             accept="video/*"
+            style={{ width: "100%" }}
           />
         </p>
+        {this.state.isLoading ? (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="32"
+            height="32"
+            viewBox="0 0 24 24"
+          >
+            <path
+              fill="currentColor"
+              d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z"
+              opacity=".25"
+            />
+            <path
+              fill="currentColor"
+              d="M10.14,1.16a11,11,0,0,0-9,8.92A1.59,1.59,0,0,0,2.46,12,1.52,1.52,0,0,0,4.11,10.7a8,8,0,0,1,6.66-6.61A1.42,1.42,0,0,0,12,2.69h0A1.57,1.57,0,0,0,10.14,1.16Z"
+            >
+              <animateTransform
+                attributeName="transform"
+                dur="0.75s"
+                repeatCount="indefinite"
+                type="rotate"
+                values="0 12 12;360 12 12"
+              />
+            </path>
+          </svg>
+        ) : null}
         <FilesInfo filesInfo={filesInfo} />
       </div>
     );
   }
 }
 
-StorageFileWidget.defaultProps = {
+StorageVideoWidget.defaultProps = {
   autofocus: false
 };
 
 if (process.env.NODE_ENV !== "production") {
-  StorageFileWidget.propTypes = {
+  StorageVideoWidget.propTypes = {
     multiple: PropTypes.bool,
     value: PropTypes.oneOfType([
       PropTypes.string,
@@ -151,4 +183,4 @@ if (process.env.NODE_ENV !== "production") {
   };
 }
 
-export default StorageFileWidget;
+export default StorageVideoWidget;
