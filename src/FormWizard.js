@@ -15,6 +15,7 @@ import AnswerWidget from "./formWidgets/AnswerWidget";
 import PatternTypeTextInputWidget from "./formWidgets/PatternTypeTextInputWidget";
 import OneLineWidget from "./formWidgets/OneLineWidget";
 import ImageUploadWidget from "./formWidgets/ImageUploadWidget";
+import StorageVideoWidget from "./formWidgets/StorageVideoWidget";
 import LocationWidget from "./formWidgets/LocationWidget";
 import "./FormWizard.css";
 
@@ -51,6 +52,28 @@ class FormWizard extends Component {
     const url = `./${step.schema.slug}`;
     trackPageView(url);
     this.props.history.push(url);
+
+    // check for sessionStorage for prefilling
+
+    const stored = sessionStorage.getItem("prefiller") || null;
+    if (!!stored) {
+      const prefiller = JSON.parse(stored);
+      for (let i = 0; i < prefiller.length; i++) {
+        const elem =
+          document.getElementById(`root_${prefiller[i].key}`) || null;
+        if (elem && !elem.value) {
+          this.setState({
+            formData: {
+              ...this.state.formData,
+              [prefiller[i].key]:
+                elem.type === "number"
+                  ? parseInt(prefiller[i].val, prefiller[i].val)
+                  : decodeURI(prefiller[i].val)
+            }
+          });
+        }
+      }
+    }
   }
 
   getNextStep(formData, rules = this.state.step.rules) {
@@ -108,12 +131,35 @@ class FormWizard extends Component {
     } else {
       this.resetToFirstStep();
     }
+
+    // Enable prefilling of input text fields by passing url query param from initial step to session storage
+
+    const queryParamsRaw = window.location.search;
+    let queryParamsCleaned = queryParamsRaw.replace("?", "");
+    if (queryParamsCleaned.startsWith("prefill")) {
+      queryParamsCleaned = queryParamsCleaned.replaceAll("prefill", "");
+      const queryParamsArray = queryParamsCleaned.split("&") || [];
+      const queryParams = queryParamsArray
+        .map(e => {
+          if (!e.includes("=")) return null;
+          const cf = e.split("=");
+          if (!cf[0].startsWith("[")) return null;
+          return {
+            key: cf[0].slice(1, -1),
+            val: cf[1]
+          };
+        })
+        .filter(e => e);
+
+      if (queryParams.length > 0) {
+        sessionStorage.setItem("prefiller", JSON.stringify(queryParams));
+      }
+    }
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.match.params.currentStep === this.props.match.params.step)
       return;
-
     const currentStep = _.find(nextProps.steps, step => {
       return step.schema.slug === nextProps.match.params.step;
     });
@@ -248,6 +294,7 @@ class FormWizard extends Component {
                 patternTypeTextInputWidget: PatternTypeTextInputWidget,
                 oneLineWidget: OneLineWidget,
                 imageUpload: ImageUploadWidget,
+                storageUpload: StorageVideoWidget,
                 locationWidget: LocationWidget,
                 answerWidget: AnswerWidget
               }}
