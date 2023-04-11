@@ -77,7 +77,27 @@ class StateHolder extends React.Component {
       .postResponse(payload, investigation, form, this.state.authToken)
       .then(response => {
         window.removeEventListener("beforeunload", unloadListener);
-        window.location = response.redirect_url;
+
+        // allow passing url query params via init url
+        const checkRedirectSession = sessionStorage.getItem("prefiller");
+        if (!!checkRedirectSession) {
+          const sessionState = JSON.parse(checkRedirectSession) || null;
+          const filtered = sessionState.filter(e =>
+            e.key.startsWith("redirect-appendix-")
+          );
+          if (filtered.length > 0) {
+            let query = "";
+            filtered.forEach(e => {
+              query = `${(query !== "" ? query + "&" : query) +
+                e.key.replace("redirect-appendix-", "")}=${e.val}`;
+            });
+            window.location = `${response.redirect_url}?${query}`;
+          } else {
+            window.location = response.redirect_url;
+          }
+        } else {
+          window.location = response.redirect_url;
+        }
       })
       .catch(console.error);
   }
