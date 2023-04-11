@@ -118,10 +118,13 @@ class StorageVideoWidget extends Component {
   };
 
   render() {
-    const { id, readonly, disabled, autofocus } = this.props;
+    const { id, readonly, disabled, autofocus, options } = this.props;
     const { filesInfo } = this.state;
     return (
       <div>
+        {!!options.question && options.question !== "" ? (
+          <p>{options.question}</p>
+        ) : null}
         <p>
           <input
             ref={ref => (this.inputRef = ref)}
