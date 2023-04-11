@@ -1,8 +1,7 @@
-import React, { Component, useState } from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 
-import { shouldRender } from "./utils";
-import uuid from "react-uuid";
+import { shouldRender, fakeUuid } from "./utils";
 
 async function processFile(file) {
   const { name, size, type } = file;
@@ -52,7 +51,7 @@ function extractFileInfo(file) {
 }
 
 async function uploadStorage(file) {
-  const uniqueHash = uuid();
+  const uniqueHash = fakeUuid();
   const fileExt = file.name.match(/\.([0-9a-z]+)(?:[?#]|$)/i);
   const uniqueFilename = uniqueHash + fileExt[0];
   const uploadUrl = fetch(
