@@ -179,7 +179,15 @@ class StorageVideoWidget extends Component {
             </path>
           </svg>
         ) : null}
-        <FilesInfo filesInfo={filesInfo} />
+        {!!this.state.values &&
+        this.state.values.filter(e => e) &&
+        !filesInfo.filter(e => !!e.type).length > 0 ? (
+          <p>
+            <b>{this.state.values}</b>
+          </p>
+        ) : (
+          <FilesInfo filesInfo={filesInfo} />
+        )}
       </div>
     );
   }
