@@ -15,6 +15,7 @@ import AnswerWidget from "./formWidgets/AnswerWidget";
 import PatternTypeTextInputWidget from "./formWidgets/PatternTypeTextInputWidget";
 import OneLineWidget from "./formWidgets/OneLineWidget";
 import ImageUploadWidget from "./formWidgets/ImageUploadWidget";
+import StorageVideoWidget from "./formWidgets/StorageVideoWidget";
 import LocationWidget from "./formWidgets/LocationWidget";
 import "./FormWizard.css";
 
@@ -293,6 +294,7 @@ class FormWizard extends Component {
                 patternTypeTextInputWidget: PatternTypeTextInputWidget,
                 oneLineWidget: OneLineWidget,
                 imageUpload: ImageUploadWidget,
+                storageUpload: StorageVideoWidget,
                 locationWidget: LocationWidget,
                 answerWidget: AnswerWidget
               }}
